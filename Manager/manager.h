@@ -2,13 +2,15 @@
 #define MANAGER_H
 
 #include <QObject>
-#include <QtSerialPort/QSerialPort>
 #include <QString>
 #include <QStringList>
+
+#include <Model/serialbroker.h>
 
 namespace Ex {
 
     class MainWindow;
+    class SerialBroker;
 
     class Manager final: public QObject
     {
@@ -17,15 +19,18 @@ namespace Ex {
     public:
         explicit Manager();
         ~Manager();
+        /**
+         * @brief Starts the application's main form {@link MainWindow}.
+         */
         void start() const;
-        QSerialPort* m_port = nullptr;
-        QStringList* getAvailablePorts();
 
     private:
         MainWindow& m_mainWindow;
+        SerialBroker& m_serialBroker;
+        QStringList* m_ports = nullptr;
+
         explicit Manager(const Manager& rhs) = delete;
         Manager& operator = (const Manager& rhs) = delete;
-        QStringList* m_ports = nullptr;
 
     signals:
 
